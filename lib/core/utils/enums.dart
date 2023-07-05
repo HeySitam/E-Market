@@ -1,0 +1,1 @@
+enum ResponseState {IDLE, LOADING, SUCCESS, FAILURE}
