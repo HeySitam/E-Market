@@ -34,4 +34,22 @@ class ProductInfoRepositoryImpl extends ProductInfoRepository{
     return response;
   }
 
+  @override
+  Future<APIResponse<Failure, List<ProductInfo>>> getCategoryWiseProducts(String category) async {
+    APIResponse<Failure, List<ProductInfo>> response = APIResponse();
+    response.startLoading();
+    if(await networkInfo.isConnected){
+      try{
+        final allProducts = await remoteDataSource.getCategoryWiseProducts(category);
+        response.setSuccessResponse(allProducts);
+      } on ServerException catch (e, _){
+        response.setFailureResponse(ServerFailure(message: e.message));
+      }
+    } else {
+      return response.setFailureResponse(NetworkConnectionFailure());
+    }
+
+    return response;
+  }
+
 }

@@ -14,11 +14,11 @@ class ProductInfoModel extends ProductInfo {
       return ProductInfoModel(
           id: json['id'],
           title: json['title'],
-          price: json['price'],
+          price: intToDouble(json['price']),
           description: json['description'],
           category: json['category'],
           imageUrl: json['image'],
-          rating: json['rating'],
+          rating: RatingModel.fromJson(json['rating']),
       );
   }
 }
@@ -28,8 +28,12 @@ class RatingModel extends Rating{
 
     factory RatingModel.fromJson(Map<String, dynamic> json){
         return RatingModel(
-            rate: json['rate'],
-            count: json['count']
+            rate: intToDouble(json['rate']),
+            count: intToDouble(json['count'])
         );
     }
+}
+
+double intToDouble(dynamic data){
+    return (data as num).toDouble();
 }

@@ -11,6 +11,7 @@ abstract class ProductInfoRemoteDataSource {
   ///
   /// Throws a [ServerException] for all error codes.
   Future<List<ProductInfoModel>> getAllProducts();
+    Future<List<ProductInfoModel>> getCategoryWiseProducts(String category);
 }
 
 class ProductInfoRemoteDataSourceImpl extends ProductInfoRemoteDataSource {
@@ -20,13 +21,27 @@ class ProductInfoRemoteDataSourceImpl extends ProductInfoRemoteDataSource {
 
   @override
   Future<List<ProductInfoModel>> getAllProducts() async {
-    final url = "${NetworkUtil.baseUrl}${NetworkUtil.productsEndPoint}";
+    const url = "${NetworkUtil.baseUrl}${NetworkUtil.productsEndPoint}";
     try {
       final response = await client.get(url);
       final allProductsList = (response.data as List)
           .map((productMap) => ProductInfoModel.fromJson(productMap))
           .toList();
         return allProductsList;
+    } on DioException catch (e) {
+      throw ServerException("${e.message}");
+    }
+  }
+
+  @override
+  Future<List<ProductInfoModel>> getCategoryWiseProducts(String category) async {
+    final url = "${NetworkUtil.baseUrl}${NetworkUtil.categoryWiseProductsEndPoint}$category";
+    try {
+      final response = await client.get(url);
+      final allProductsList = (response.data as List)
+          .map((productMap) => ProductInfoModel.fromJson(productMap))
+          .toList();
+      return allProductsList;
     } on DioException catch (e) {
       throw ServerException("${e.message}");
     }
