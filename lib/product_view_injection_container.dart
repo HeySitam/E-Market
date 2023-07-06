@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:goriber_marketplace/features/prodouct_view/data/datasources/product_info_remote_datasource.dart';
-import 'package:goriber_marketplace/features/prodouct_view/data/repositories/product_info_repository_impl.dart';
-import 'package:goriber_marketplace/features/prodouct_view/presentation/repositories/product_info_repository.dart';
-import 'package:goriber_marketplace/features/prodouct_view/presentation/viewmodels/product_info_viewmodel.dart';
-
 import 'core/network/network_info.dart';
+import 'features/prodouct_management/data/datasources/product_info_remote_datasource.dart';
+import 'features/prodouct_management/data/repositories/product_info_repository_impl.dart';
+import 'features/prodouct_management/presentation/repositories/product_info_repository.dart';
+import 'features/prodouct_management/presentation/viewmodels/product_info_viewmodel.dart';
 
 final sl = GetIt.instance;
 

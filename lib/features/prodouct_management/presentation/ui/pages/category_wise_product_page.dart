@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:goriber_marketplace/features/prodouct_view/presentation/viewmodels/product_info_viewmodel.dart';
 import 'package:provider/provider.dart';
+
+import '../../viewmodels/product_info_viewmodel.dart';
 
 class CategoryWiseProductViewPage extends StatefulWidget {
   const CategoryWiseProductViewPage({super.key});

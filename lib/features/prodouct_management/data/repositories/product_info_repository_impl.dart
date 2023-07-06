@@ -3,10 +3,11 @@ import 'package:goriber_marketplace/core/network/network_failure.dart';
 
 import 'package:goriber_marketplace/core/utils/api_response.dart';
 
-import 'package:goriber_marketplace/features/prodouct_view/presentation/entities/product_info.dart';
+
 
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/network/network_info.dart';
+import '../../presentation/entities/product_info.dart';
 import '../../presentation/repositories/product_info_repository.dart';
 import '../datasources/product_info_remote_datasource.dart';
 

@@ -1,4 +1,6 @@
-import 'package:goriber_marketplace/features/prodouct_view/presentation/entities/product_info.dart';
+
+
+import '../../presentation/entities/product_info.dart';
 
 class ProductInfoModel extends ProductInfo {
   ProductInfoModel({
