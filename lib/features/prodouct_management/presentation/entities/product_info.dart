@@ -1,3 +1,5 @@
+import 'package:goriber_marketplace/core/utils/supporting_methods.dart';
+
 class ProductInfo {
   int? id;
   String? title;
@@ -15,7 +17,9 @@ class ProductInfo {
     this.category,
     this.imageUrl,
     this.rating
-});
+}){
+    price = roundDoubleToTwoDecimalPlace(price ?? 0.0);
+  }
 }
 
 class Rating {
