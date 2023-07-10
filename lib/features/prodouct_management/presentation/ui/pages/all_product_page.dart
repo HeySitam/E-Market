@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/error/failures.dart';
@@ -46,14 +47,29 @@ class _AllProductPageState extends State<AllProductPage> {
           ),
           backgroundColor: Colors.blueGrey,
           actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.shopping_cart,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // do something
-              },
+            Stack(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.shopping_cart,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    // do something
+                  },
+                ),
+                Consumer<CartInfoViewModel>(
+                  builder: (context,cartVM,child){
+                    return Visibility(
+                      visible: cartVM.cartInfoList.isNotEmpty,
+                      child: CircleAvatar(
+                        radius: 12,
+                        child: Text("${cartVM.cartInfoList.length}"),
+                      ),
+                    );
+                  },
+                )
+              ],
             )
           ],
         ),

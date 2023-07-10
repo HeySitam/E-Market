@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/entities/cart_info.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../../core/utils/util.dart';
 
@@ -26,15 +29,20 @@ class CartViewPage extends StatelessWidget {
       body: Column(
         children: [
           Expanded(
-            child: ListView.separated(
-                itemCount: 5,
-                separatorBuilder: (context,pos) => HorizontalLine(
-                    lineWidth: 2,
-                    length: MediaQuery.of(context).size.width,
-                    color: Colors.black12),
-                itemBuilder: (context, pos){
-                  return CartListItem();
-                }
+            child: Consumer<CartInfoViewModel>(
+              builder: (context, vm, child){
+                final cartInfoList = vm.cartInfoList;
+                return ListView.separated(
+                    itemCount: cartInfoList.length,
+                    separatorBuilder: (context,pos) => HorizontalLine(
+                        lineWidth: 2,
+                        length: MediaQuery.of(context).size.width,
+                        color: Colors.black12),
+                    itemBuilder: (context, pos){
+                      return CartListItem(cartInfoList[pos],context);
+                    }
+                );
+              },
             ),
           ),
           HorizontalLine(lineWidth: 1,
@@ -45,8 +53,12 @@ class CartViewPage extends StatelessWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: Text("₹5190.78",
-                  style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),),
+                  child: Consumer<CartInfoViewModel>(
+                    builder: (context,vm,chiild){
+                      return Text("₹${vm.calculateTotal()}",
+                        style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),);
+                    },
+                  ),
                 ),
                 ElevatedButton(
                     onPressed: (){},
@@ -60,22 +72,30 @@ class CartViewPage extends StatelessWidget {
     );
   }
 
-  Widget CartListItem(){
+  Widget CartListItem(CartInfo cartInfo,BuildContext context){
+    final cartVM = Provider.of<CartInfoViewModel>(context,listen: false);
     return ListTile(
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.network(Util.noImageFoundUrl),
+        child: Image.network(cartInfo.imgUrl ?? Util.noImageFoundUrl),
       ),
-      title: Text("Bamboo Toothbrush",
+      title: Text(cartInfo.title ?? "Not Found!",
         maxLines: 1,
         overflow: TextOverflow.ellipsis,),
       subtitle: Row(
         children: [
-          Expanded(child: Text("Rs. 120")),
-          QuantitySetter()
+          Expanded(child: Text("Rs. ${cartInfo.price ?? 0.0}")),
+          QuantitySetter(
+            qtyCallBack: (qty) => cartVM.editItemQuantity(cartInfo.id!, qty),
+            productId: cartInfo.id!,
+          )
         ],
       ),
-      trailing: Icon(Icons.delete, color: Colors.blueGrey,),
+      trailing: InkWell(
+          onTap: (){
+            cartVM.deleteFromCart(cartInfo.id!);
+          },
+          child: Icon(Icons.delete, color: Colors.blueGrey,)),
     );
   }
 }

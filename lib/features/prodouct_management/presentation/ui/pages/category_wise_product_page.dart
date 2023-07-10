@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 import '../../../../../core/utils/supporting_widgets.dart';
 import '../../entities/product_info.dart';
+import '../../viewmodels/cart_info_viewmodel.dart';
 import '../../viewmodels/product_info_viewmodel.dart';
+import 'cart_view_page.dart';
 
 class CategoryWiseProductViewPage extends StatefulWidget {
   String heading;
@@ -84,14 +86,31 @@ class _CategoryWiseProductViewPageState
               ToggleButton(
                 selectedState: _selectedStateCallBack,
               ),
-              IconButton(
-                icon: Icon(
-                  Icons.shopping_cart,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  // do something
-                },
+              Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      // do something
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context)=> CartViewPage()));
+                    },
+                  ),
+                  Consumer<CartInfoViewModel>(
+                    builder: (context,cartVM,child){
+                      return Visibility(
+                        visible: cartVM.cartInfoList.isNotEmpty,
+                        child: CircleAvatar(
+                          radius: 12,
+                          child: Text("${cartVM.cartInfoList.length}"),
+                        ),
+                      );
+                    },
+                  )
+                ],
               )
             ],
           ),
