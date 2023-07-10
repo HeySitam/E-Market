@@ -11,7 +11,7 @@ import '../../viewmodels/product_info_viewmodel.dart';
 class ProductDetailViewPage extends StatelessWidget {
   final _imgHt = 300.0;
   final _btnSize = 80.0;
-  final desc = "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.";
+  //final desc = "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.";
 
   ProductInfo info;
   ProductDetailViewPage({super.key, required this.info});
@@ -22,6 +22,7 @@ class ProductDetailViewPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -37,7 +38,8 @@ class ProductDetailViewPage extends StatelessWidget {
       body: Column(
         children: [
           Image.network(info.imageUrl ?? Util.noImageFoundUrl,
-          height: _imgHt,),
+          height: _imgHt,
+          fit: BoxFit.contain,),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 8),
             child: Column(
@@ -46,7 +48,7 @@ class ProductDetailViewPage extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text("Bamboo Toothbrush",
+                      child: Text(info.title ?? "Not Found",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -73,7 +75,7 @@ class ProductDetailViewPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text("Rs. 120",
+                  child: Text("Rs. ${info.price ?? 0.0}",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w600,
@@ -82,7 +84,7 @@ class ProductDetailViewPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(top: 8),
-                  child: Text(desc,
+                  child: Text(info.description ?? "no description found!",
                     style: TextStyle(
                         fontSize: 12,
                         color: Colors.black45

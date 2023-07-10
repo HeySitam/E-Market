@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/error/failures.dart';
@@ -141,15 +142,22 @@ class _AllProductPageState extends State<AllProductPage> {
   }
 
   Widget CategoryWiseProductListItem({ProductInfo? productInfo}){
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      child: SizedBox(
-        width: 150,
-        child: Column(
-          children: [
-            CategoryWiseListItemHeader(productInfo: productInfo),
-            CategoryWiseListItemBody(productInfo: productInfo)
-          ],
+    return InkWell(
+      onTap: (){
+        Navigator.push(context,
+          MaterialPageRoute(builder: (context) => ProductDetailViewPage(info: productInfo!))
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: SizedBox(
+          width: 150,
+          child: Column(
+            children: [
+              CategoryWiseListItemHeader(productInfo: productInfo),
+              CategoryWiseListItemBody(productInfo: productInfo)
+            ],
+          ),
         ),
       ),
     );

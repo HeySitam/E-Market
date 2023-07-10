@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Roboto'
       ),
-     // home: AllProductPage(),
-      home: ProductDetailViewPage(info: ProductInfo(),),
+        home: AllProductPage(),
+     // home: ProductDetailViewPage(info: ProductInfo(),),
     );
   }
 }
