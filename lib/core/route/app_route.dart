@@ -1,0 +1,7 @@
+class AppRoute {
+
+}
+
+class AppRouteName {
+
+}
