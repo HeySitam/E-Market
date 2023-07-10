@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/entities/product_info.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/all_product_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
 import 'package:provider/provider.dart';
 import 'features/prodouct_management/presentation/viewmodels/product_info_viewmodel.dart';
@@ -31,8 +32,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         fontFamily: 'Roboto'
       ),
-        home: AllProductPage(),
-     // home: ProductDetailViewPage(info: ProductInfo(),),
+        //home: AllProductPage(),
+     home: CartViewPage(),
     );
   }
 }
