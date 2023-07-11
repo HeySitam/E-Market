@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -34,48 +36,14 @@ class _AllProductPageState extends State<AllProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          title: Text(
-            "গরিবের দোকান",
-            style: TextStyle(
-                fontSize: 30,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w500,
-                color: Colors.white
-            ),
-          ),
-          backgroundColor: Colors.blueGrey,
-          actions: <Widget>[
-            Stack(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    // do something
-                  },
-                ),
-                Consumer<CartInfoViewModel>(
-                  builder: (context,cartVM,child){
-                    return Visibility(
-                      visible: cartVM.cartInfoList.isNotEmpty,
-                      child: CircleAvatar(
-                        radius: 12,
-                        child: Text("${cartVM.cartInfoList.length}"),
-                      ),
-                    );
-                  },
-                )
-              ],
-            )
-          ],
+        appBar: AppBarBuilder.build(
+          context: context,
+          title: "গরিবের দোকান",
+          shouldCenterTitle: true
         ),
         body: Column(
           children:[
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(left: 18, top: 8),
               child: Text("Welcome!",
                 style: TextStyle(fontSize: 30,color: Colors.black38,fontFamily: 'Indies',fontWeight: FontWeight.w500),

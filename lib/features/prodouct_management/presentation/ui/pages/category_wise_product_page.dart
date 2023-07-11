@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../../core/utils/supporting_widgets.dart';
@@ -71,49 +72,11 @@ class _CategoryWiseProductViewPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-          appBar: AppBar(
-            iconTheme: IconThemeData(color: Colors.white),
-            title: Text(
-              widget.heading,
-              style: const TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white),
-            ),
-            backgroundColor: Colors.blueGrey,
-            actions: <Widget>[
-              ToggleButton(
-                selectedState: _selectedStateCallBack,
-              ),
-              Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.shopping_cart,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      // do something
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context)=> CartViewPage()));
-                    },
-                  ),
-                  Consumer<CartInfoViewModel>(
-                    builder: (context,cartVM,child){
-                      return Visibility(
-                        visible: cartVM.cartInfoList.isNotEmpty,
-                        child: CircleAvatar(
-                          radius: 12,
-                          child: Text("${cartVM.cartInfoList.length}"),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              )
-            ],
-          ),
+          appBar: AppBarBuilder.build(
+              context: context,
+              title: widget.heading,
+              fontSize: 24,
+              shouldCenterTitle: false),
           body: _isColumn ? ColumnList() : GridList(),
         );
   }

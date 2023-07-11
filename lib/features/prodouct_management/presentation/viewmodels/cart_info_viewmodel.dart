@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/supporting_methods.dart';
 import '../entities/cart_info.dart';
 
 class CartInfoViewModel extends ChangeNotifier {
@@ -39,6 +40,7 @@ class CartInfoViewModel extends ChangeNotifier {
         total += (qty * price);
       }
     }
+    total = roundDoubleToTwoDecimalPlace(total);
     return total;
   }
 
@@ -49,6 +51,14 @@ class CartInfoViewModel extends ChangeNotifier {
       qty = _cartInfoList[pos].qty ?? 1;
     }
     return qty;
+  }
+
+  updateSelectedQty(int id, int qty){
+    int pos = _posIfItemAlreadyExist(id);
+    if(pos != -1){
+      _cartInfoList[pos].qty = qty;
+      notifyListeners();
+    }
   }
 
   int _posIfItemAlreadyExist(int itemId){

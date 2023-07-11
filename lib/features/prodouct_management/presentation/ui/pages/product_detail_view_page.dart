@@ -3,6 +3,7 @@ import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
 import 'package:goriber_marketplace/core/utils/util.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/entities/cart_info.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ import '../../../../../core/error/failures.dart';
 import '../../../../../core/utils/api_response.dart';
 import '../../entities/product_info.dart';
 import '../../viewmodels/product_info_viewmodel.dart';
+import '../widgets/quantity_setter.dart';
 
 class ProductDetailViewPage extends StatelessWidget {
   final _imgHt = 300.0;
@@ -30,38 +32,10 @@ class ProductDetailViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cartVM = Provider.of<CartInfoViewModel>(context, listen: false);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.blueGrey,
-          iconTheme: IconThemeData(color: Colors.white),
-          actions: <Widget>[
-            Stack(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    // do something
-                    Navigator.push(context,
-                    MaterialPageRoute(builder: (context)=> CartViewPage()));
-                  },
-                ),
-                Consumer<CartInfoViewModel>(
-                  builder: (context,cartVM,child){
-                    return Visibility(
-                      visible: cartVM.cartInfoList.isNotEmpty,
-                      child: CircleAvatar(
-                        radius: 12,
-                        child: Text("${cartVM.cartInfoList.length}"),
-                      ),
-                    );
-                  },
-                )
-              ],
-            )
-          ],
-        ),
+        appBar: AppBarBuilder.build(
+            context: context,
+            title: "",
+            shouldCenterTitle: false),
         body: Column(
           children: [
             Image.network(info.imageUrl ?? Util.noImageFoundUrl,
@@ -119,21 +93,21 @@ class ProductDetailViewPage extends StatelessWidget {
                           color: Colors.black45
                       ),),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 12),
-                    child: Row(
-                      children: [
-                        Expanded(child: Text("Select Qty.",
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500
-                          ),),),
-                        Padding(
-                            padding: EdgeInsets.only(right: 12),
-                            child: QuantitySetter(qtyCallBack: _selectedQtyCallBack, productId: info.id!,))
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: EdgeInsets.only(top: 12),
+                  //   child: Row(
+                  //     children: [
+                  //       Expanded(child: Text("Select Qty.",
+                  //         style: TextStyle(
+                  //             fontSize: 18,
+                  //             fontWeight: FontWeight.w500
+                  //         ),),),
+                  //       Padding(
+                  //           padding: EdgeInsets.only(right: 12),
+                  //           child: QuantitySetter(qtyCallBack: _selectedQtyCallBack, productId: info.id!,))
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -168,76 +142,4 @@ class ProductDetailViewPage extends StatelessWidget {
   }
 }
 
-typedef void SelectedQtyCallBack(int qty);
 
-class QuantitySetter extends StatefulWidget {
-  SelectedQtyCallBack qtyCallBack;
-  int productId;
-  QuantitySetter({super.key, required this.qtyCallBack, required this.productId});
-
-  @override
-  State<QuantitySetter> createState() => _QuantitySetterState();
-}
-
-class _QuantitySetterState extends State<QuantitySetter> {
-  int _qty = 1;
-  late CartInfoViewModel cartVM;
-
-  @override
-  void initState() {
-    cartVM = Provider.of<CartInfoViewModel>(context,listen: false);
-    _qty = cartVM.getSelectedQty(widget.productId);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 100,
-      height: 40,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          color: Colors.black12),
-      child: Row(
-        children: [
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                if (_qty > 1) {
-                  _qty --;
-                  widget.qtyCallBack(_qty);
-                }
-                setState(() {});
-              },
-              child: Center(
-                child: Text('-',
-                  style: TextStyle(color: Colors.green, fontSize: 20),),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Center(
-              child: Text(_qty.toString(),
-                style: TextStyle(color: Colors.black, fontSize: 16),),
-            ),
-          ),
-          Expanded(
-            child: InkWell(
-              onTap: () {
-                if (_qty < 50) {
-                  _qty ++;
-                  widget.qtyCallBack(_qty);
-                }
-                setState(() {});
-              },
-              child: Center(
-                child: Text('+',
-                  style: TextStyle(color: Colors.green, fontSize: 20),),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
