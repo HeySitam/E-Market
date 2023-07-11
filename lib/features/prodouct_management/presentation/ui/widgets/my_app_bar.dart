@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/toggle_button.dart';
 import 'package:provider/provider.dart';
 
 import '../../viewmodels/cart_info_viewmodel.dart';
@@ -11,7 +12,9 @@ class AppBarBuilder extends AppBar{
     required String title,
     required bool shouldCenterTitle,
     bool shouldCartIconVisible = true,
-    double fontSize = 30
+    bool shouldToggleBtnVisible = false,
+    double fontSize = 30,
+    SelectedStateCallBack? stateCallBack
   }) {
     return AppBar(
       centerTitle: shouldCenterTitle,
@@ -27,6 +30,9 @@ class AppBarBuilder extends AppBar{
       backgroundColor: Colors.blueGrey,
       iconTheme: const IconThemeData(color: Colors.white),
       actions: <Widget>[
+        Visibility(
+            visible: shouldToggleBtnVisible,
+            child: ColumnGridToggleButton(selectedState: (toggleState) => stateCallBack!(toggleState))),
         Visibility(
           visible: shouldCartIconVisible,
           child: InkWell(

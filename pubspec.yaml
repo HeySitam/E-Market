@@ -42,6 +42,7 @@ dependencies:
   # DI / Service Locator
   get_it: ^7.6.0
   shared_preferences: ^2.2.0
+  shimmer: ^3.0.0
 
 dev_dependencies:
   flutter_test:

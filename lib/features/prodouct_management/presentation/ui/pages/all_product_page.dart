@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goriber_marketplace/core/utils/enums.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
@@ -6,6 +7,7 @@ import 'package:goriber_marketplace/features/prodouct_management/presentation/ui
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../../core/error/failures.dart';
 import '../../../../../core/utils/api_response.dart';
@@ -73,6 +75,7 @@ class _AllProductPageState extends State<AllProductPage> {
   Widget CategoryWiseProducts({
     required String heading,
     required APIResponse<Failure,List<ProductInfo>>? response}) {
+    ResponseState state = response?.responseState ?? ResponseState.LOADING;
     List<ProductInfo>? productInfoList = response?.successResponse;
     _eachCategoryListLen = productInfoList?.length ?? 0;
     return SizedBox(
@@ -111,7 +114,7 @@ class _AllProductPageState extends State<AllProductPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 8),
-              child: ListView.builder(
+              child: state == ResponseState.LOADING ? ShimmerLoading() : ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: _eachCategoryListLen,
                   itemBuilder: (context,pos){
@@ -221,6 +224,26 @@ class _AllProductPageState extends State<AllProductPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget ShimmerLoading(){
+    return Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.grey[100]!,
+        child:  ListView.builder(
+          scrollDirection: Axis.horizontal,
+            itemCount: 6,
+            itemBuilder: (context, pos){
+               return Card(
+                 elevation: 1.0,
+                 shape: RoundedRectangleBorder(
+                   borderRadius: BorderRadius.circular(16),
+                 ),
+                 child: const SizedBox(height: 200, width: 150,),
+               );
+            }
+        )
     );
   }
 }
