@@ -13,6 +13,7 @@ class ProductInfoViewModel extends ChangeNotifier {
   APIResponse<Failure,List<ProductInfo>>? _jewelleryProducts;
   APIResponse<Failure,List<ProductInfo>>? _menClothes;
   APIResponse<Failure,List<ProductInfo>>? _womenClothes;
+  bool? _hasNetwork;
 
   ProductInfoViewModel({this.repository});
 
@@ -42,9 +43,15 @@ class ProductInfoViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> isNetworkConnected() async {
+    _hasNetwork = await repository!.getNetworkInfo();
+    notifyListeners();
+  }
+
   APIResponse<Failure,List<ProductInfo>>? get allProducts => _allProducts;
   APIResponse<Failure,List<ProductInfo>>? get electronicProducts => _electronicProducts;
   APIResponse<Failure,List<ProductInfo>>? get jewelleryProducts => _jewelleryProducts;
   APIResponse<Failure,List<ProductInfo>>? get menClothes => _menClothes;
   APIResponse<Failure,List<ProductInfo>>? get womenClothes => _womenClothes;
+  bool? get hasNetwork => _hasNetwork;
 }

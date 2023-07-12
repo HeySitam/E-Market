@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:goriber_marketplace/core/utils/enums.dart';
+import 'package:goriber_marketplace/core/utils/image_paths.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/product_image.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -25,10 +27,12 @@ class AllProductPage extends StatefulWidget{
 
 class _AllProductPageState extends State<AllProductPage> {
   int _eachCategoryListLen = 5;
+  late ProductInfoViewModel vm;
+  final _imgHt = 120.0;
 
   @override
   void initState() {
-    final vm = Provider.of<ProductInfoViewModel>(context,listen: false);
+    vm = Provider.of<ProductInfoViewModel>(context,listen: false);
     vm.fetchElectronicProducts();
     vm.fetchJewelleryProducts();
     vm.fetchMenClothes();
@@ -37,6 +41,7 @@ class _AllProductPageState extends State<AllProductPage> {
   }
   @override
   Widget build(BuildContext context) {
+    vm.isNetworkConnected();
     return Scaffold(
         appBar: AppBarBuilder.build(
           context: context,
@@ -53,19 +58,21 @@ class _AllProductPageState extends State<AllProductPage> {
             ),
             HorizontalLine(lineWidth: 1, length: double.infinity,color: Colors.black12),
             Expanded(
-              child: SingleChildScrollView(
-                child: Consumer<ProductInfoViewModel>(
-                  builder: (context,vm,child){
-                    return Column(
+              child: Consumer<ProductInfoViewModel>(
+                builder: (context, vm, child){
+                  return vm.hasNetwork! ? SingleChildScrollView(
+                    child:Column(
                       children: [
                         CategoryWiseProducts(heading: CategoryName.catElectronic, response: vm.electronicProducts),
                         CategoryWiseProducts(heading: CategoryName.catJewellery, response: vm.jewelleryProducts),
                         CategoryWiseProducts(heading: CategoryName.catMenCloth, response: vm.menClothes),
                         CategoryWiseProducts(heading: CategoryName.catWomenCloth, response: vm.womenClothes),
                       ],
-                    );
-                  },
-                ),
+                    ),
+                    // },
+                    //   ),
+                  ) : Image.asset('assets/images/no_network.png');
+                },
               ),
             )] ,
         )
@@ -79,7 +86,7 @@ class _AllProductPageState extends State<AllProductPage> {
     List<ProductInfo>? productInfoList = response?.successResponse;
     _eachCategoryListLen = productInfoList?.length ?? 0;
     return SizedBox(
-      height: 260,
+      height: 248,
       child: Column(
         children: [
           Padding(
@@ -101,12 +108,15 @@ class _AllProductPageState extends State<AllProductPage> {
                       MaterialPageRoute(builder: (context) => CategoryWiseProductViewPage(heading: heading,))
                     );
                   },
-                  child: const Text("See More",
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green
-                    ),),
+                  child: Visibility(
+                    visible: state == ResponseState.SUCCESS,
+                    child: const Text("See More",
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.green
+                      ),),
+                  ),
                 )
               ],
             ),
@@ -114,13 +124,23 @@ class _AllProductPageState extends State<AllProductPage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(left: 8),
-              child: state == ResponseState.LOADING ? ShimmerLoading() : ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _eachCategoryListLen,
-                  itemBuilder: (context,pos){
-                    final item = productInfoList?[pos];
-                    return CategoryWiseProductListItem(productInfo: item);
-                  }),
+              child: state == ResponseState.LOADING ? ShimmerLoading() : Stack(
+                children: [
+                  Visibility(
+                    visible: state == ResponseState.SUCCESS,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _eachCategoryListLen,
+                        itemBuilder: (context,pos){
+                          final item = productInfoList?[pos];
+                          return CategoryWiseProductListItem(productInfo: item);
+                        }),
+                  ),
+                  Visibility(
+                    visible: state == ResponseState.FAILURE,
+                      child: Image.asset(ImagePath.ON_ERROR))
+                ]
+              ),
             ),
           )
         ],
@@ -160,12 +180,12 @@ class _AllProductPageState extends State<AllProductPage> {
           ),
           child: ColoredBox(
             color: Colors.white,
-            child: productInfo == null ? Image.asset('assets/images/no_item_found.webp',
-              height: 120,
-              fit: BoxFit.contain,) :
-            Image.network(productInfo.imageUrl!,
-              height: 120,
-              fit: BoxFit.contain,),
+            child: productInfo == null ? Image.asset(ImagePath.NO_Item_FOUND,
+              height: _imgHt,
+              fit: BoxFit.contain,) : ProductImage(
+              imgUrl: productInfo.imageUrl,
+              imageHt: _imgHt,
+            ),
           )
       ),
     ) ;
@@ -186,8 +206,8 @@ class _AllProductPageState extends State<AllProductPage> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500),),
-              Text("20 Item availability",
-                style: TextStyle(fontSize: 10,color: Colors.blueAccent),),
+              // Text("20 Item availability",
+              //   style: TextStyle(fontSize: 10,color: Colors.blueAccent),),
               Padding(
                 padding: EdgeInsets.only(top: 2),
                 child: Visibility(

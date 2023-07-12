@@ -4,6 +4,7 @@ import 'package:goriber_marketplace/core/utils/util.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/entities/cart_info.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/cart_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/product_image.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -38,79 +39,77 @@ class ProductDetailViewPage extends StatelessWidget {
             shouldCenterTitle: false),
         body: Column(
           children: [
-            Image.network(info.imageUrl ?? Util.noImageFoundUrl,
-              height: _imgHt,
-              fit: BoxFit.contain,),
+            Expanded(child: ProductImage(imgUrl: info.imageUrl)),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(info.title ?? "Not Found",
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black
-                          ),),
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: ColoredBox(
-                          color: Colors.green,
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 4, right: 4),
-                            child: Row(
-                              children: [
-                                Text(info.rating?.rate?.toString() ?? "0.0",
-                                  style: TextStyle(fontWeight: FontWeight.w500,
-                                      color: Color(0xfff0f0f0)),),
-                                Icon(Icons.star_rate_rounded, size: 16,
-                                  color: Colors.white60,)
-                              ],
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(info.title ?? "Not Found",
+                            style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black
+                            ),),
+                        ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(4),
+                          child: ColoredBox(
+                            color: Colors.green,
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 4, right: 4),
+                              child: Row(
+                                children: [
+                                  Text(info.rating?.rate?.toString() ?? "0.0",
+                                    style: const TextStyle(fontWeight: FontWeight.w500,
+                                        color: Color(0xfff0f0f0)),),
+                                  const Icon(Icons.star_rate_rounded, size: 16,
+                                    color: Colors.white60,)
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: Text("Rs. ${info.price ?? 0.0}",
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black
-                      ),),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 8),
-                    child: Text(info.description ?? "no description found!",
-                      style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black45
-                      ),),
-                  ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(top: 12),
-                  //   child: Row(
-                  //     children: [
-                  //       Expanded(child: Text("Select Qty.",
-                  //         style: TextStyle(
-                  //             fontSize: 18,
-                  //             fontWeight: FontWeight.w500
-                  //         ),),),
-                  //       Padding(
-                  //           padding: EdgeInsets.only(right: 12),
-                  //           child: QuantitySetter(qtyCallBack: _selectedQtyCallBack, productId: info.id!,))
-                  //     ],
-                  //   ),
-                  // ),
-                ],
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text("Rs. ${info.price ?? 0.0}",
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black
+                        ),),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text(info.description ?? "no description found!",
+                        style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black45
+                        ),),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(top: 12),
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(child: Text("Select Qty.",
+                    //         style: TextStyle(
+                    //             fontSize: 18,
+                    //             fontWeight: FontWeight.w500
+                    //         ),),),
+                    //       Padding(
+                    //           padding: EdgeInsets.only(right: 12),
+                    //           child: QuantitySetter(qtyCallBack: _selectedQtyCallBack, productId: info.id!,))
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
-            ),
             Expanded(
               child: Center(
                 child: InkWell(
@@ -130,7 +129,7 @@ class ProductDetailViewPage extends StatelessWidget {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
                         color: Colors.blueGrey),
-                    child: Icon(Icons.add_shopping_cart, color: Colors.white,
+                    child: const Icon(Icons.add_shopping_cart, color: Colors.white,
                       size: 40,),
                   ),
                 ),

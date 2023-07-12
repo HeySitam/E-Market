@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:goriber_marketplace/core/utils/image_paths.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
@@ -8,6 +9,7 @@ import '../../../../../core/utils/supporting_widgets.dart';
 import '../../entities/product_info.dart';
 import '../../viewmodels/cart_info_viewmodel.dart';
 import '../../viewmodels/product_info_viewmodel.dart';
+import '../widgets/product_image.dart';
 import '../widgets/toggle_button.dart';
 import 'cart_view_page.dart';
 
@@ -138,17 +140,10 @@ class _CategoryWiseProductViewPageState
                 topLeft: Radius.circular(8), topRight: Radius.circular(8)),
             child: ColoredBox(
               color: Colors.white,
-              child: productInfo == null
-                  ? Image.asset(
-                      'assets/images/no_item_found.webp',
-                      // height: 120,
-                      fit: BoxFit.contain,
-                    )
-                  : Image.network(
-                      productInfo.imageUrl!,
-                      // height: 120,
-                      fit: BoxFit.contain,
-                    ),
+              child: productInfo == null ? Image.asset(ImagePath.NO_Item_FOUND,
+                fit: BoxFit.contain,) : ProductImage(
+                imgUrl: productInfo.imageUrl,
+              ),
             )),
       ),
     );
@@ -171,10 +166,6 @@ class _CategoryWiseProductViewPageState
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
-              Text(
-                "20 Item availability",
-                style: TextStyle(fontSize: 10, color: Colors.blueAccent),
-              ),
               Padding(
                 padding: EdgeInsets.only(top: 2),
                 child: Visibility(
@@ -183,7 +174,7 @@ class _CategoryWiseProductViewPageState
                     children: [
                       Text(
                         "RS.${productInfo!.price!}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black54,
                             fontWeight: FontWeight.w500),
@@ -199,11 +190,11 @@ class _CategoryWiseProductViewPageState
                               children: [
                                 Text(
                                   productInfo.rating?.rate?.toString() ?? "0.0",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.w500,
                                       color: Color(0xfff0f0f0)),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.star_rate_rounded,
                                   size: 16,
                                   color: Colors.white60,

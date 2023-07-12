@@ -3,9 +3,11 @@ import 'package:goriber_marketplace/core/utils/supporting_widgets.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/entities/cart_info.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/pages/product_detail_view_page.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/my_app_bar.dart';
+import 'package:goriber_marketplace/features/prodouct_management/presentation/ui/widgets/product_image.dart';
 import 'package:goriber_marketplace/features/prodouct_management/presentation/viewmodels/cart_info_viewmodel.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../../core/utils/image_paths.dart';
 import '../../../../../core/utils/util.dart';
 import '../widgets/quantity_setter.dart';
 
@@ -27,15 +29,17 @@ class CartViewPage extends StatelessWidget {
             child: Consumer<CartInfoViewModel>(
               builder: (context, vm, child) {
                 final cartInfoList = vm.cartInfoList;
-                return cartInfoList.isNotEmpty ? ListView.separated(
-                    itemCount: cartInfoList.length,
-                    separatorBuilder: (context, pos) => HorizontalLine(
-                        lineWidth: 2,
-                        length: MediaQuery.of(context).size.width,
-                        color: Colors.black12),
-                    itemBuilder: (context, pos) {
-                      return CartListItem(cartInfoList[pos], context);
-                    }) : Image.asset('assets/images/empty_cart.png');
+                return cartInfoList.isNotEmpty
+                    ? ListView.separated(
+                        itemCount: cartInfoList.length,
+                        separatorBuilder: (context, pos) => HorizontalLine(
+                            lineWidth: 2,
+                            length: MediaQuery.of(context).size.width,
+                            color: Colors.black12),
+                        itemBuilder: (context, pos) {
+                          return CartListItem(cartInfoList[pos], context);
+                        })
+                    : Image.asset('assets/images/empty_cart.png');
               },
             ),
           ),
@@ -78,7 +82,7 @@ class CartViewPage extends StatelessWidget {
       return ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.network(cartInfo.imgUrl ?? Util.noImageFoundUrl),
+          child: ProductImage(imgUrl: cartInfo.imgUrl,),
         ),
         title: Text(
           cartInfo.title ?? "Not Found!",
@@ -89,7 +93,7 @@ class CartViewPage extends StatelessWidget {
           children: [
             Expanded(child: Text("Rs. ${cartInfo.price ?? 0.0}")),
             QuantitySetter(
-             // qtyCallBack: (qty) => cartVM.editItemQuantity(cartInfo.id!, qty),
+              // qtyCallBack: (qty) => cartVM.editItemQuantity(cartInfo.id!, qty),
               productId: cartInfo.id!,
             )
           ],

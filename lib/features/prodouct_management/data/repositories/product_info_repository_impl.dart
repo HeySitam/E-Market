@@ -53,4 +53,10 @@ class ProductInfoRepositoryImpl extends ProductInfoRepository{
     return response;
   }
 
+  @override
+  Future<bool> getNetworkInfo() async {
+    bool hasConnection = await networkInfo.isConnected;
+    return hasConnection;
+  }
+
 }
