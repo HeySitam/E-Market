@@ -4,4 +4,5 @@ class ImagePath {
   static const String NO_Item_FOUND = 'assets/images/no_item_found.webp';
   static const String NO_NETWORK = 'assets/images/no_network.png';
   static const String ON_ERROR = 'assets/images/on_error_pic.png';
+  static const String APP_LOGO_SPLASH = 'assets/images/app_logo_splash.png';
 }

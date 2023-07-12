@@ -183,7 +183,7 @@ class _CategoryWiseProductViewPageState
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: ColoredBox(
-                          color: Colors.green,
+                          color: Colors.blue,
                           child: Padding(
                             padding: EdgeInsets.only(left: 4, right: 4),
                             child: Row(

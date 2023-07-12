@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:goriber_marketplace/core/utils/enums.dart';
 import 'package:goriber_marketplace/core/utils/image_paths.dart';
 import 'package:goriber_marketplace/core/utils/product_categories.dart';
@@ -37,6 +38,10 @@ class _AllProductPageState extends State<AllProductPage> {
     vm.fetchJewelleryProducts();
     vm.fetchMenClothes();
     vm.fetchWomenClothes();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+    });
+
     super.initState();
   }
   @override
@@ -114,7 +119,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Colors.green
+                          color: Colors.blueAccent
                       ),),
                   ),
                 )
@@ -223,7 +228,7 @@ class _AllProductPageState extends State<AllProductPage> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(4),
                         child: ColoredBox(
-                          color: Colors.green,
+                          color: Colors.blue,
                           child: Padding(
                             padding: EdgeInsets.only(left: 4,right: 4),
                             child: Row(

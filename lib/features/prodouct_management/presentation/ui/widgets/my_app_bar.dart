@@ -27,7 +27,7 @@ class AppBarBuilder extends AppBar{
             color: Colors.white
         ),
       ),
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: const Color(0xff012245),
       iconTheme: const IconThemeData(color: Colors.white),
       actions: <Widget>[
         Visibility(

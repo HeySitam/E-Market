@@ -25,10 +25,6 @@ class ProductDetailViewPage extends StatelessWidget {
 
   ProductDetailViewPage({super.key, required this.info});
 
-  _selectedQtyCallBack(int qty) {
-    _selectedQty = qty;
-  }
-
   @override
   Widget build(BuildContext context) {
     final cartVM = Provider.of<CartInfoViewModel>(context, listen: false);
@@ -58,7 +54,7 @@ class ProductDetailViewPage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(4),
                           child: ColoredBox(
-                            color: Colors.green,
+                            color: Colors.blue,
                             child: Padding(
                               padding: EdgeInsets.only(left: 4, right: 4),
                               child: Row(
@@ -128,7 +124,7 @@ class ProductDetailViewPage extends StatelessWidget {
                     height: _btnSize,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
-                        color: Colors.blueGrey),
+                        color: const Color(0xff012245)),
                     child: const Icon(Icons.add_shopping_cart, color: Colors.white,
                       size: 40,),
                   ),
