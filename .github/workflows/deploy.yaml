@@ -28,6 +28,7 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: AKIATWKAORC3ZUST73GJ
           AWS_SECRET_ACCESS_KEY: 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
+          AWS_DEFAULT_REGION: ap-south-1
         run: |
           aws s3 sync build/web s3://befluttery
 
