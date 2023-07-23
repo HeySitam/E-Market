@@ -44,7 +44,7 @@ class ProductInfoViewModel extends ChangeNotifier {
   }
 
   Future<void> isNetworkConnected() async {
-    _hasNetwork = await repository!.getNetworkInfo();
+    _hasNetwork = await Future.value(true);
     notifyListeners();
   }
 
